@@ -39,13 +39,13 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
     }
 
     private fun getTenNews(listNews: ArrayList<New>) {
-        for (index in 0..9) {
+        for (index in 0..14) {
             newsLoad.add(listNews[index])
         }
     }
 
     override fun getWebData(datas: ArrayList<New>) {
-        if (newsLoad.size < 40) {
+        if (newsLoad.size < 300) {
             newsLoad.add(null)
             newAdapter.notifyItemInserted(newsLoad.size-1)
 
