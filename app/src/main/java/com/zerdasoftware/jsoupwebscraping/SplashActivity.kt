@@ -12,7 +12,9 @@ import android.os.Bundle
 class SplashActivity : AppCompatActivity(),IJsoupData {
 
     private var loader:AsyncTask<Void,Void,ArrayList<New>>? = null
-    private val WEB_PAGE:String = "?b_start:int=0"
+    private val WEB_PAGE:Int = 1
+
+    //https://www.milliyet.com.tr/teknoloji/?page=2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
