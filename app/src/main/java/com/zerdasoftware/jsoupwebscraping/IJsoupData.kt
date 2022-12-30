@@ -1,5 +1,5 @@
 package com.zerdasoftware.jsoupwebscraping
 
 interface IJsoupData {
-    fun getWebData(datas: ArrayList<New>)
+    fun getWebData(datas: ArrayList<News>)
 }

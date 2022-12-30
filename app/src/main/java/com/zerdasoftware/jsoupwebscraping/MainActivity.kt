@@ -6,22 +6,21 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
 
-    private var news:ArrayList<New>? = ArrayList()
-    private var newsLoad: MutableList<New?> = ArrayList()
+    private var news:ArrayList<News>? = ArrayList()
+    private var newsLoad: MutableList<News?> = ArrayList()
     lateinit var newAdapter: NewAdapter
-    private var loader:AsyncTask<Void, Void, ArrayList<New>>? = null
+    private var loader:AsyncTask<Void, Void, ArrayList<News>>? = null
     private var numberPage:Int = 1
-    private var WEB_PAGE:String? = null
+    private var categoryId:Int = 0
 
     override fun onLoadMore() {
         numberPage+=1
-        loader = LoadNews(this,numberPage)
+        loader = LoadNews(this,numberPage,categoryId)
         loader!!.execute()
     }
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        news = intent.getSerializableExtra("NEWS") as ArrayList<New>
+        news = intent.getSerializableExtra("NEWS") as ArrayList<News>
         getTenNews(news!!)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -38,13 +37,13 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
         newAdapter.getLoadMore(this)
     }
 
-    private fun getTenNews(listNews: ArrayList<New>) {
+    private fun getTenNews(listNews: ArrayList<News>) {
         for (index in 0..14) {
             newsLoad.add(listNews[index])
         }
     }
 
-    override fun getWebData(datas: ArrayList<New>) {
+    override fun getWebData(datas: ArrayList<News>) {
         if (newsLoad.size < 300) {
             newsLoad.add(null)
             newAdapter.notifyItemInserted(newsLoad.size-1)
@@ -58,8 +57,6 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
                 newAdapter.notifyDataSetChanged()
                 newAdapter.setLoaded()
             },3000)
-        } else {
-            Toast.makeText(this,"Load data finish",Toast.LENGTH_SHORT).show()
         }
     }
 }

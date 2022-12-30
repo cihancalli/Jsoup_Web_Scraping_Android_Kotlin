@@ -11,18 +11,19 @@ import android.os.Bundle
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity(),IJsoupData {
 
-    private var loader:AsyncTask<Void,Void,ArrayList<New>>? = null
+    private var loader:AsyncTask<Void,Void,ArrayList<News>>? = null
     private val WEB_PAGE:Int = 1
+    private val CATEGORY_ID:Int = 0
 
     //https://www.milliyet.com.tr/teknoloji/?page=2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loader = LoadNews(this,WEB_PAGE)
+        loader = LoadNews(this,WEB_PAGE,CATEGORY_ID)
         loader!!.execute()
     }
 
-    override fun getWebData(datas: ArrayList<New>) {
+    override fun getWebData(datas: ArrayList<News>) {
         val intent = Intent(this,MainActivity::class.java)
         intent.putExtra("NEWS",datas)
         startActivity(intent)
