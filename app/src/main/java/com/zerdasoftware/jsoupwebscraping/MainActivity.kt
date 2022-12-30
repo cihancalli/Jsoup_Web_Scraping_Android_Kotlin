@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
 
     private var news:ArrayList<News>? = ArrayList()
     private var newsLoad: MutableList<News?> = ArrayList()
-    lateinit var newAdapter: NewAdapter
+    lateinit var newsAdapter: NewsAdapter
     private var loader:AsyncTask<Void, Void, ArrayList<News>>? = null
     private var numberPage:Int = 1
     private var categoryId:Int = 0
@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
         getTenNews(news!!)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        newAdapter = NewAdapter(recyclerView,this,newsLoad)
-        recyclerView.adapter = newAdapter
-        newAdapter.getLoadMore(this)
+        newsAdapter = NewsAdapter(recyclerView,this,newsLoad)
+        recyclerView.adapter = newsAdapter
+        newsAdapter.getLoadMore(this)
     }
 
     private fun getTenNews(listNews: ArrayList<News>) {
@@ -46,16 +46,16 @@ class MainActivity : AppCompatActivity(),ILoadMore,IJsoupData {
     override fun getWebData(datas: ArrayList<News>) {
         if (newsLoad.size < 300) {
             newsLoad.add(null)
-            newAdapter.notifyItemInserted(newsLoad.size-1)
+            newsAdapter.notifyItemInserted(newsLoad.size-1)
 
             Handler().postDelayed({
                 newsLoad.removeAt(newsLoad.size - 1)
-                newAdapter.notifyItemRemoved(newsLoad.size)
+                newsAdapter.notifyItemRemoved(newsLoad.size)
 
                 getTenNews(datas)
 
-                newAdapter.notifyDataSetChanged()
-                newAdapter.setLoaded()
+                newsAdapter.notifyDataSetChanged()
+                newsAdapter.setLoaded()
             },3000)
         }
     }

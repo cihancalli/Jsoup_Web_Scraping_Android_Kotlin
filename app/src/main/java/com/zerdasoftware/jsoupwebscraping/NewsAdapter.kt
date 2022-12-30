@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class NewAdapter(recyclerView: RecyclerView,activity: Activity, var news:MutableList<News?>) :
+class NewsAdapter(recyclerView: RecyclerView, activity: Activity, var news:MutableList<News?>) :
  RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     val VIEW_TYPE_ITEM = 0
