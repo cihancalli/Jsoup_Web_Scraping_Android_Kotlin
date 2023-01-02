@@ -2,11 +2,24 @@
 
 package com.zerdasoftware.jsoupwebscraping
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.content.FileProvider.getUriForFile
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details_news.*
+import java.lang.Exception
+import com.squareup.picasso.Target
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class DetailsNewsActivity : AppCompatActivity(),ILoadDetails {
 
@@ -26,6 +39,57 @@ class DetailsNewsActivity : AppCompatActivity(),ILoadDetails {
 
         loadDetailsNews = LoadDetailsNews(this, urlDetails!!)
         loadDetailsNews!!.execute()
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    fun shareNewsImage() {
+        Picasso.get().load(urlImage).into(object : Target {
+            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "image/*"
+                intent.putExtra(Intent.EXTRA_STREAM,getLocalBitmapUri(bitmap!!))
+                startActivity(Intent.createChooser(intent,"Share"))
+            }
+
+            override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) { }
+
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) { }
+        })
+    }
+
+    private fun getLocalBitmapUri(bitmap: Bitmap): Uri? {
+        var bitmapUri: Uri? = null
+        try {
+            val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            "shareimage" + "png")
+
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG,90,out)
+            out.close()
+
+            bitmapUri = getUriForFile(applicationContext,
+                applicationContext.packageName+".fileprovider",
+            file)
+
+        }catch (e:IOException){
+            e.printStackTrace()
+        }
+        return bitmapUri
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_details_news,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id:Int = item.itemId
+        when(id){
+            android.R.id.home -> finish()
+            R.id.btn_share -> shareNewsImage()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun getDetails(details: ArrayList<String>) {

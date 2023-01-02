@@ -15,8 +15,6 @@ class SplashActivity : AppCompatActivity(),IJsoupData {
     private val WEB_PAGE:Int = 1
     private val CATEGORY_ID:Int = 0
 
-    //https://www.milliyet.com.tr/teknoloji/?page=2
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loader = LoadNews(this,WEB_PAGE,CATEGORY_ID)

@@ -24,9 +24,6 @@ class LoadNews (activity: AppCompatActivity?, var page:Int,var categoryId:Int) :
     }
 
     private fun getHurriyetNews() {
-        //?b_start:int=20
-        //val url = "https://www.saude.gov.br/fakenews?limitstart=0"
-        //val url = "https://www.gov.br/saude/pt-br/assuntos/noticias/2022?$page"
         val url = "https://www.hurriyet.com.tr"
         val urlPage = "https://www.hurriyet.com.tr/${categoryList[categoryId]}/?p=$page"
         val doc: Document = Jsoup.connect(urlPage).get()
