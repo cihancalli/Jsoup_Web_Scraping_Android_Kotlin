@@ -18,9 +18,7 @@ class LoadNews (activity: AppCompatActivity?, var page:Int,var categoryId:Int) :
     @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg p0: Void?): ArrayList<News> {
         try {
-
             getHurriyetNews()
-
         }catch (e: IOException) { e.printStackTrace()}
         return news
     }
@@ -48,7 +46,7 @@ class LoadNews (activity: AppCompatActivity?, var page:Int,var categoryId:Int) :
             val title:String = tagHeading.select("a").eq(index).text()
             //get detail news link inside tag "a" with attribute "href
             val details:String = tagHeading.select("a").eq(index).attr("href")
-            println("Result: I:$imgUrl T:$title D:$url$details")
+            //println("Result: I:$imgUrl T:$title D:$url$details")
             news.add(News(imgUrl,title,"$url$details"))
         }
     }

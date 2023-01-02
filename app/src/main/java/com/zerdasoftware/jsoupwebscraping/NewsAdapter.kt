@@ -1,13 +1,14 @@
 package com.zerdasoftware.jsoupwebscraping
 
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class NewsAdapter(recyclerView: RecyclerView, activity: Activity, var news:MutableList<News?>) :
+class NewsAdapter(recyclerView: RecyclerView, val activity: Activity, var news:MutableList<News?>) :
  RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     val VIEW_TYPE_ITEM = 0
@@ -69,6 +70,16 @@ class NewsAdapter(recyclerView: RecyclerView, activity: Activity, var news:Mutab
             holder.bindView(news[position]!!)
         } else if (holder is LoadViewHolder){
             holder.bindView()
+        }
+
+        val newsItem = news[position]
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(activity,DetailsNewsActivity::class.java)
+            intent.putExtra("IMAGE",newsItem!!.image)
+            intent.putExtra("TITLE",newsItem!!.title)
+            intent.putExtra("DETAILS",newsItem!!.details)
+            activity.startActivity(intent)
         }
     }
 
